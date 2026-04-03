@@ -1,8 +1,8 @@
 package server
 import ("encoding/json";"log";"net/http";"strconv";"github.com/stockyard-dev/stockyard-deposition/internal/store")
 type Server struct { db *store.DB; mux *http.ServeMux }
-func New(db *store.DB) *Server {
-	s := &Server{db: db, mux: http.NewServeMux()}
+func New(db *store.DB, limits Limits) *Server {
+	s := &Server{db: db, mux: http.NewServeMux(), limits: limits}
 	s.mux.HandleFunc("POST /api/events", s.append)
 	s.mux.HandleFunc("GET /api/events", s.query)
 	s.mux.HandleFunc("GET /api/verify", s.verify)
